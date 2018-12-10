@@ -2,27 +2,50 @@ import * as api from "../../api/api"
 
 const defaultState = {
   profile: [],
-  portfolio: []
+  portfolio: [],
+  specificPortfolio: {
+    title: "",
+    screenshots: []
+  }
 };
 
 const actions = {
   setProfile: (context, payload) => {
-    api.getPorfile()
-      .then((res) => {
-        if (res.status === 200) {
-          context.commit("profileUpdate", res.data);
-        }
-      })
+    return new Promise(
+      (resolve, reject) => {
+        api.getPorfile()
+          .then((res) => {
+            if (res.status === 200) {
+              context.commit("profileUpdate", res.data);
+              resolve(res.data);
+            }
+          })
+      }
+    )
   },
 
   setPortfolio: (context, payload) => {
-    api.getPortfolio()
+    return new Promise(
+      (resolve, reject) => {
+        api.getPortfolio()
+          .then((res) => {
+            if (res.status === 200) {
+              context.commit("portfolioUpdate", res.data);
+              resolve(res.data);
+            }
+          })
+      }
+    )
+  },
+
+  setSpecificPortfolio: (context, payload) => {
+    api.getSpecificPortfolio(payload.id)
       .then((res) => {
         if (res.status === 200) {
-          context.commit("portfolioUpdate", res.data);
+          context.commit("specificPortfolioUpdate", res.data);
         }
       })
-  }
+  },
 };
 
 const mutations = {
@@ -33,11 +56,16 @@ const mutations = {
   portfolioUpdate: (state, data) => {
     state.portfolio = data;
   },
+
+  specificPortfolioUpdate: (state, data) => {
+    state.specificPortfolio = data;
+  },
 };
 
 const getters = {
   profile: state => state.profile,
-  portfolio: state => state.portfolio
+  portfolio: state => state.portfolio,
+  specificPortfolio: state => state.specificPortfolio
 };
 
 export default {

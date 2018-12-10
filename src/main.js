@@ -4,6 +4,13 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import {store} from './stores/store'
+import BootstrapVue from 'bootstrap-vue'
+import VueCarousel from 'vue-carousel';
+
+
+Vue.use(VueCarousel);
+Vue.use(BootstrapVue);
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
